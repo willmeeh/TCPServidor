@@ -17,6 +17,13 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
     }
+    
+    public void putTextLog(String texto){
+        
+        texto = texto + "\n";
+        
+        this.textAreaLog.append(texto);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,6 +38,10 @@ public class MainFrame extends javax.swing.JFrame {
         lblIpServer = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         lblIpWireless = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        lblPorta = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        textAreaLog = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,6 +53,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         lblIpWireless.setText("ip");
 
+        jLabel3.setText("Porta: ");
+
+        lblPorta.setText("porta");
+
+        textAreaLog.setColumns(20);
+        textAreaLog.setRows(5);
+        jScrollPane1.setViewportView(textAreaLog);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -50,14 +69,22 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblIpServer))
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblIpWireless)))
-                .addContainerGap(199, Short.MAX_VALUE))
+                        .addComponent(lblIpWireless)
+                        .addContainerGap(470, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblIpServer)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblPorta)
+                        .addGap(70, 70, 70))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -65,12 +92,16 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(lblIpServer))
+                    .addComponent(lblIpServer)
+                    .addComponent(jLabel3)
+                    .addComponent(lblPorta))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(lblIpWireless))
-                .addContainerGap(258, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -114,7 +145,11 @@ public class MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JLabel lblIpServer;
     public javax.swing.JLabel lblIpWireless;
+    private javax.swing.JLabel lblPorta;
+    public static javax.swing.JTextArea textAreaLog;
     // End of variables declaration//GEN-END:variables
 }

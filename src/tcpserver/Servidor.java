@@ -21,6 +21,7 @@ public class Servidor {
 
     private String ipLocalHost = "";
     private String ipWireless = "";
+    private String porta = "";
 
     public Servidor() {
         obtainLocalIp();

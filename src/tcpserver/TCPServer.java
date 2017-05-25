@@ -32,22 +32,23 @@ public class TCPServer {
             
             ServerSocket servidor = new ServerSocket(12345);
             System.out.println("Porta 12345 aberta!");
-
             
-
+            
             MainFrame frame = new MainFrame();
+
             frame.setVisible(true);
+            
+            frame.putTextLog("Porta 12345 aberta!");
             frame.lblIpServer.setText(server.getIpLocalHost());
             frame.lblIpWireless.setText(server.getIpWireless());
 
             Socket cliente = servidor.accept();
-            System.out.println("Nova conexão com o cliente "
-                    + cliente.getInetAddress().getHostAddress()
-            );
+            frame.putTextLog("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
 
             Scanner s = new Scanner(cliente.getInputStream());
             while (s.hasNextLine()) {
                 System.out.println(s.nextLine());
+                frame.putTextLog(s.nextLine());
             }
 
             s.close();
