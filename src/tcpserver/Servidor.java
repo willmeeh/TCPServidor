@@ -5,13 +5,17 @@
  */
 package tcpserver;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static tcpserver.TCPServer.frame;
 
 /**
  *
@@ -19,16 +23,14 @@ import java.util.logging.Logger;
  */
 public class Servidor {
 
-    private String ipLocalHost = "";
     private String ipWireless = "";
     private String porta = "";
 
     public Servidor() {
-        obtainLocalIp();
         obtainWirelessIp();
     }
 
-    private void obtainLocalIp() {
+    private void obtainWirelessIp() {
         try {
             Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
             while (interfaces.hasMoreElements()) {
@@ -50,17 +52,30 @@ public class Servidor {
         }
     }
 
-    private void obtainWirelessIp() {
+    /**
+     * Este metodo Inicializa o servidor de acordo com a porta informada, e
+     * aguarda conexoes com clientes, onde toda vez que um clente se conectar,
+     * uma thread eh instanciada para fazer a troca de mensagens. Isto ocorre
+     * para que o servidor possa realizar a troca de mensagens com varios
+     * clientes ao mesmo tempo.
+     */
+    public void iniciarServidor() {
         try {
-            String aux = InetAddress.getLocalHost().toString();
-            ipLocalHost = aux.split("/")[1];
-        } catch (UnknownHostException ex) {
+            ServerSocket servidor = new ServerSocket(12345);
+            System.out.println("Porta 12345 aberta!");
+
+            while (true) {
+                Socket cliente = servidor.accept();
+
+                // Exibe no log da interface, a nova conexao.
+                frame.putTextLog("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
+
+                Runnable r = new TratamentoCliente(cliente);
+                new Thread(r).start();
+            }
+        } catch (IOException ex) {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public String getIpLocalHost() {
-        return ipLocalHost;
     }
 
     public String getIpWireless() {

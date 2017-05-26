@@ -22,50 +22,24 @@ import java.util.logging.Logger;
  */
 public class TCPServer {
 
+    public static MainFrame frame = new MainFrame();
+
+    public static Comandos comandos = new Comandos();
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SocketException {
-        
-        Comandos comandos = new Comandos();
 
-        String temperatura = comandos.getTemperatura("-29.698472", "-52.436200");
-        
-            
-        System.out.println(temperatura);
-        
-        // deixar somente uma linha entre o try e o public
-        try {
-            Servidor server = new Servidor();
-            
-            ServerSocket servidor = new ServerSocket(12345);
-            System.out.println("Porta 12345 aberta!");
-            
-            
-            MainFrame frame = new MainFrame();
+        //        String temperatura = comandos.getTemperatura("-29.698472", "-52.436200");
+//        System.out.println(temperatura);
+        Servidor server = new Servidor();
 
-            frame.setVisible(true);
-            
-            frame.putTextLog("Porta 12345 aberta!");
-            frame.lblIpServer.setText(server.getIpLocalHost());
-            frame.lblIpWireless.setText(server.getIpWireless());
+        frame.setVisible(true);
+        frame.lblIpWireless.setText(server.getIpWireless());
 
-            Socket cliente = servidor.accept();
-            frame.putTextLog("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
-
-            Scanner s = new Scanner(cliente.getInputStream());
-            while (s.hasNextLine()) {
-                System.out.println(s.nextLine());
-                frame.putTextLog(s.nextLine());
-            }
-
-            s.close();
-            servidor.close();
-            cliente.close();
-
-        } catch (IOException ex) {
-            Logger.getLogger(TCPServer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        // Apos popular o ip, inicia o servidor
+        server.iniciarServidor();
 
     }
 
