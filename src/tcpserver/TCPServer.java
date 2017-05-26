@@ -26,7 +26,15 @@ public class TCPServer {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws SocketException {
+        
+        Comandos comandos = new Comandos();
 
+        String temperatura = comandos.getTemperatura("-29.698472", "-52.436200");
+        
+            
+        System.out.println(temperatura);
+        
+        // deixar somente uma linha entre o try e o public
         try {
             Servidor server = new Servidor();
             
