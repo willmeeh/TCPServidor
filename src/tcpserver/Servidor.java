@@ -15,7 +15,7 @@ import java.net.UnknownHostException;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static tcpserver.TCPServer.frame;
+import static tcpserver.TCPServer.serverUi;
 
 /**
  *
@@ -24,32 +24,10 @@ import static tcpserver.TCPServer.frame;
 public class Servidor {
 
     private String ipWireless = "";
-    private String porta = "";
+    private int porta = 8000;
 
     public Servidor() {
-        obtainWirelessIp();
-    }
-
-    private void obtainWirelessIp() {
-        try {
-            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-            while (interfaces.hasMoreElements()) {
-                NetworkInterface iface = interfaces.nextElement();
-                // filters out 127.0.0.1 and inactive interfaces
-                if (iface.isLoopback() || !iface.isUp()) {
-                    continue;
-                }
-
-                Enumeration<InetAddress> addresses = iface.getInetAddresses();
-                while (addresses.hasMoreElements()) {
-                    InetAddress addr = addresses.nextElement();
-                    ipWireless = addr.getHostAddress();
-                    System.out.println(iface.getDisplayName() + " " + ipWireless);
-                }
-            }
-        } catch (SocketException ex) {
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.ipWireless = Utils.obtainWirelessIp();
     }
 
     /**
@@ -61,16 +39,16 @@ public class Servidor {
      */
     public void iniciarServidor() {
         try {
-            ServerSocket servidor = new ServerSocket(12345);
-            System.out.println("Porta 12345 aberta!");
+
+            putMsgInfo("Servidor iniciado com sucesso, aguardando requisições!");
+            ServerSocket servidor = new ServerSocket(porta);
 
             while (true) {
                 Socket cliente = servidor.accept();
-
                 // Exibe no log da interface, a nova conexao.
-                frame.putTextLog("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
+                putMsgInfo("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
 
-                Runnable r = new TratamentoCliente(cliente);
+                Runnable r = new TratamentoCliente(cliente, cliente.getInetAddress().getHostAddress());
                 new Thread(r).start();
             }
         } catch (IOException ex) {
@@ -80,5 +58,17 @@ public class Servidor {
 
     public String getIpWireless() {
         return ipWireless;
+    }
+
+    public int getPorta() {
+        return porta;
+    }
+
+    public static void putMsgInfo(String msg) {
+        String logText = "";
+
+        logText = "[ " + Utils.getCurrentDate() + " - " + Utils.getCurrentTime() + " ] INFO: ";
+        logText += msg;
+        serverUi.putTextLog(logText);
     }
 }

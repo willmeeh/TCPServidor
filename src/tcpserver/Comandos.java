@@ -29,13 +29,18 @@ import sun.misc.IOUtils;
  */
 public class Comandos {
 
-    public String getAutores() {
-        return "William Mehler, Tiago Schwab, Daniel Moraes, Jocemar Pereira";
+    public static String COMMAND_KEY_AUTORES = "/autores";
+    public static String COMMAND_KEY_TEMPERATURA = "/temperatura";
+    public static String COMMAND_KEY_NOTICIAS = "/noticias";
+
+    public static String getAutores() {
+        String autores = "<html><body>William Mehler<br/>Tiago Schwab<br/>Daniel Moraes<br/>Jocemar Pereira</body></html>";
+        return autores;
     }
 
-    public String getTemperatura(String latitude, String longitude) {
+    public static String getTemperatura(String coordenadas) {
 
-        String sURL = "https://api.darksky.net/forecast/baa3bd555593ed8f45232544699ec5a2/" + latitude + "," + longitude;
+        String sURL = "https://api.darksky.net/forecast/baa3bd555593ed8f45232544699ec5a2/" + coordenadas;
 
         JSONObject json;
         try {
@@ -50,7 +55,9 @@ public class Comandos {
 
             String temperaturaCelsius = Utils.fahrenheitToCelsius(Float.parseFloat(temperaturaFahrenheit));
 
-            return temperaturaCelsius;
+            String retorno = "<html><body style='font-size: 150px;'>" + temperaturaCelsius + "°</body></html>";
+
+            return retorno;
 
         } catch (Exception ex) {
             Logger.getLogger(Comandos.class.getName()).log(Level.SEVERE, null, ex);

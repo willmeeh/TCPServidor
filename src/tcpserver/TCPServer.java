@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  */
 public class TCPServer {
 
-    public static MainFrame frame = new MainFrame();
+    public static MainFrame serverUi = new MainFrame();
 
     public static Comandos comandos = new Comandos();
 
@@ -35,8 +35,9 @@ public class TCPServer {
 //        System.out.println(temperatura);
         Servidor server = new Servidor();
 
-        frame.setVisible(true);
-        frame.lblIpWireless.setText(server.getIpWireless());
+        serverUi.setVisible(true);
+        serverUi.lblIpWireless.setText(server.getIpWireless());
+        serverUi.lblPorta.setText(String.valueOf(server.getPorta()));
 
         // Apos popular o ip, inicia o servidor
         server.iniciarServidor();
