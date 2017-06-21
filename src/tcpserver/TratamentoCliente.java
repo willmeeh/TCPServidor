@@ -11,7 +11,6 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static tcpserver.TCPServer.serverUi;
 
 /**
  *
@@ -42,7 +41,16 @@ public class TratamentoCliente implements Runnable {
                 if (resposta.equals(Comandos.COMMAND_KEY_AUTORES)) {
                     saida.println(Comandos.getAutores());
                     Servidor.putMsgInfo("Enviando lista de autores para " + ipCliente);
-                } else {
+                } else if (resposta.equals(Comandos.COMMAND_KEY_NOTICIAS)) {
+                    String noticia = Comandos.getNoticia();
+                    if (noticia.equals("")) {
+                        saida.println("Nenhuma notícia encontrada!");
+                    } else {
+                        saida.println(noticia);
+                    }
+                    Servidor.putMsgInfo("Enviando uma notícia aleatória para " + ipCliente);
+                }  
+                else {
                     String token[] = new String[10];
                     token = resposta.split("\\?");
                     System.out.println(""+token[0] + token[1]);

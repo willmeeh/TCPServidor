@@ -34,7 +34,7 @@ public class TCPServer {
         //        String temperatura = comandos.getTemperatura("-29.698472", "-52.436200");
 //        System.out.println(temperatura);
         Servidor server = new Servidor();
-
+        
         serverUi.setVisible(true);
         serverUi.lblIpWireless.setText(server.getIpWireless());
         serverUi.lblPorta.setText(String.valueOf(server.getPorta()));

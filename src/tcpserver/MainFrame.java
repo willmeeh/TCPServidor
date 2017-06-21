@@ -23,10 +23,13 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
     }
 
+    /**
+     * Adiciona o passado por parametro na interface do log do servidor
+     * @param texto 
+     */
     public void putTextLog(String texto) {
 
         texto = texto + "\n";
-
         this.textAreaLog.append(texto);
     }
 
