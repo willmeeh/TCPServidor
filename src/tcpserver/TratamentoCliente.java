@@ -13,7 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Thread responsavel por controlar as mensagens que o cliente enviou
+ * 
  * @author will
  */
 public class TratamentoCliente implements Runnable {
@@ -33,11 +34,15 @@ public class TratamentoCliente implements Runnable {
             Scanner entrada = new Scanner(socketCliente.getInputStream());
             PrintStream saida = new PrintStream(this.socketCliente.getOutputStream());
 
+            // looping para monitorar as mensagens que o cliente envia
             while (entrada.hasNextLine()) {
+                // obtem a mensagem que o cliente enviou
                 String resposta = entrada.nextLine();
 
+                // adiciona uma mensagem ao log da interface
                 Servidor.putMsgInfo("O ip " + ipCliente + " solicitou o comando " + entrada.nextLine());
 
+                // verifica qual foi o comando que o cliente enviu, e da o retorno de acordo
                 if (resposta.equals(Comandos.COMMAND_KEY_AUTORES)) {
                     saida.println(Comandos.getAutores());
                     Servidor.putMsgInfo("Enviando lista de autores para " + ipCliente);
@@ -58,8 +63,11 @@ public class TratamentoCliente implements Runnable {
                         
                         
                         String token2[] = token[1].split("coordenadas=");
-                        saida.println(Comandos.getTemperatura(token2[1]));
                         Servidor.putMsgInfo("Enviando temperatura para " + ipCliente);
+                        saida.println(Comandos.getTemperatura(token2[1]));
+                    } else {
+                        Servidor.putMsgInfo(ipCliente + "Solicitou um comando inválido");
+                        saida.println("Comando inválido");
                     }
                 }
             }

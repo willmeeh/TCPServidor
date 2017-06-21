@@ -48,6 +48,7 @@ public class Servidor {
                 // Exibe no log da interface, a nova conexao.
                 putMsgInfo("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
 
+                // Instancia uma nova thread para realizar o tratamento do cliente que se conectou
                 Runnable r = new TratamentoCliente(cliente, cliente.getInetAddress().getHostAddress());
                 new Thread(r).start();
             }
@@ -64,6 +65,12 @@ public class Servidor {
         return porta;
     }
 
+    
+    /**
+     * A partir do metodo estatico que esta na classe MainFrame, 
+     * adiciona uma mensagem de texto no log.
+     * @param msg 
+     */
     public static void putMsgInfo(String msg) {
         String logText = "";
 

@@ -23,12 +23,25 @@ import java.util.logging.Logger;
  */
 public class Utils {
 
+    /**
+     * Converte fahrenheit para celsious
+     * @param fahrenheit
+     * @return 
+     */
     public static String fahrenheitToCelsius(float fahrenheit) {
         float celsius = (fahrenheit - 32) * 5 / 9;
         
         return String.valueOf(Math.round(celsius));
     }
     
+    /**
+     * Este metodo, a partir da url informada, 
+     * retorna o seu conteudo convertido para string
+     * 
+     * @param urlString
+     * @return
+     * @throws Exception 
+     */
     static String readUrl(String urlString) throws Exception {
         BufferedReader reader = null;
         try {
@@ -50,12 +63,20 @@ public class Utils {
         }
     }
     
+    /**
+     * Obtem o tempo atual
+     * @return tempo em horas:minutos:segundos
+     */
     public static String getCurrentTime(){
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         return sdf.format(cal.getTime());
     }
     
+    /**
+     * Obtem a data atual
+     * @return data em dd/mm/yyyy
+     */
     public static String getCurrentDate(){
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
