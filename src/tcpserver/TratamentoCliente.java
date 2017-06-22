@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 /**
  * Thread responsavel por controlar as mensagens que o cliente enviou
- * 
+ *
  * @author will
  */
 public class TratamentoCliente implements Runnable {
@@ -48,23 +48,34 @@ public class TratamentoCliente implements Runnable {
                     Servidor.putMsgInfo("Enviando lista de autores para " + ipCliente);
                 } else if (resposta.equals(Comandos.COMMAND_KEY_NOTICIAS)) {
                     String noticia = Comandos.getNoticia();
+
+                    // verifica se o metodo conseguiu uma informacao valida e responde de acordo
                     if (noticia.equals("")) {
                         saida.println("Nenhuma notícia encontrada!");
+                        Servidor.putMsgInfo("Nenhuma notícia foi encontrada para enviar ao cliente: " + ipCliente);
                     } else {
                         saida.println(noticia);
+                        Servidor.putMsgInfo("Enviando uma notícia aleatória para " + ipCliente);
                     }
-                    Servidor.putMsgInfo("Enviando uma notícia aleatória para " + ipCliente);
-                }  
-                else {
+
+                } else {
                     String token[] = new String[10];
                     token = resposta.split("\\?");
-                    System.out.println(""+token[0] + token[1]);
+                    System.out.println("" + token[0] + token[1]);
                     if (token[0].equals(Comandos.COMMAND_KEY_TEMPERATURA)) {
-                        
-                        
+
                         String token2[] = token[1].split("coordenadas=");
-                        Servidor.putMsgInfo("Enviando temperatura para " + ipCliente);
-                        saida.println(Comandos.getTemperatura(token2[1]));
+
+                        String temperatura = Comandos.getTemperatura(token2[1]);
+
+                        // verifica se o metodo conseguiu uma informacao valida e responde de acordo
+                        if (temperatura.equals("")) {
+                            saida.println("Temperatura nao encontrada!");
+                            Servidor.putMsgInfo("Temperatura nao encontrada para enviar ao cliente: " + ipCliente);
+                        } else {
+                            saida.println(temperatura);
+                            Servidor.putMsgInfo("Enviando temperatura para " + ipCliente);
+                        }
                     } else {
                         Servidor.putMsgInfo(ipCliente + "Solicitou um comando inválido");
                         saida.println("Comando inválido");
